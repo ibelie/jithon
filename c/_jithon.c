@@ -9,26 +9,35 @@ extern "C" {
 #endif
 
 int Jithon_RunPython(const char* name, PyObject* args) {
-	IblPrint_Err("[Jithon] Not implemented: run python.\n");
-	return -1;
-	// neox::python::IPython* python = neox::InterfaceBox::Instance().m_python;
-	// return python->XRunFunction("jithon", "delegate", "", 0, "(sO)", name, args);
+	register PyObject* jithon = PyImport_ImportModule(PY_MODULE_NAME);
+	if (!jithon) { return -1; }
+
+	register PyObject* result = PyObject_CallMethod(jithon, "delegate", "(sO)", name, args);
+	Py_DECREF(jithon);
+	if (!result) { return -1; }
+	Py_DECREF(result);
+	return 0;
 }
 
 char* Jithon_ReadFile(const char* filename) {
-	IblPrint_Err("[Jithon] Not implemented: read file.\n");
-	return NULL;
-	// std::string pathStr(JithonPath);
-	// neox::game::IFile *file = neox::InterfaceBox::Instance().m_res_file_sys->Open((pathStr + "/" + filename + ".js").c_str());
-	// if (file == 0) { return NULL; }
-	//
-	// int size = file->Length();
-	// char* buf = (char*)calloc(size + 1, sizeof(char));
-	// if (buf) {
-	// 	memcpy(buf, file->Buffer(), size * sizeof(char));
-	// }
-	// file->Close();
-	// return buf;
+	register PyObject* fullname = PyString_FromFormat("%s/%s.js", JithonPath, filename);
+	if (!fullname) { return NULL; }
+
+	register PyObject* file = PyFile_FromString(PyString_AS_STRING(fullname), "rb");
+	Py_DECREF(fullname);
+	if (!file) { return NULL; }
+
+	register PyObject* content = PyObject_CallMethod(file, "read", NULL);
+	Py_DECREF(file);
+	if (!content) { return NULL; }
+
+	register Py_ssize_t size = PyString_GET_SIZE(content);
+	char* buf = (char*)calloc(size + 1, sizeof(char));
+	if (buf) {
+		memcpy(buf, PyString_AS_STRING(content), size * sizeof(char));
+	}
+	Py_DECREF(content);
+	return buf;
 }
 
 #ifdef __cplusplus

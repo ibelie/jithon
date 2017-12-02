@@ -5,8 +5,6 @@
 #include "jithon.h"
 #include "longintrepr.h"
 
-#define JITHON_MODULE_NAME "jithon"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -54,9 +52,9 @@ static PyObject* SetPath(PyObject* _, PyObject* arg) {
 	register PyObject* modules = PyImport_GetModuleDict();
 	if (!modules) { return NULL; }
 
-	register PyObject* m = PyDict_GetItemString(modules, JITHON_MODULE_NAME);
+	register PyObject* m = PyDict_GetItemString(modules, PY_MODULE_NAME);
 	if (!m) {
-		PyErr_Format(PyExc_ImportError, "No module named " JITHON_MODULE_NAME);
+		PyErr_Format(PyExc_ImportError, "No module named " PY_MODULE_NAME);
 		return NULL;
 	}
 

@@ -19,7 +19,8 @@
 #include "Python.h"
 #include "port.h"
 
-#define FULL_MODULE_NAME "_jithon"
+#define PY_MODULE_NAME "jithon"
+#define FULL_MODULE_NAME "_" PY_MODULE_NAME
 
 #ifndef PyVarObject_HEAD_INIT
 #	define PyVarObject_HEAD_INIT(type, size) PyObject_HEAD_INIT(type) size,
