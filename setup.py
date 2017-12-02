@@ -40,11 +40,12 @@ setup(
 
 	ext_modules = [Extension('jithon._jithon',
 		sources = [
-			'jithon/c/_jithon.cc',
-			'jithon/c/jithon.c',
-			'jithon/c/port.c',
+			'c/v8/v8.cc',
+			'c/_jithon.c',
+			'c/jithon.c',
+			'c/port.c',
 		],
-		include_dirs = ['jithon/c'],
+		include_dirs = ['c'],
 	)],
 
 	classifiers=[

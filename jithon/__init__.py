@@ -6,6 +6,12 @@
 __author__ = 'Joungtao'
 __version__ = '0.0.1'
 
+try:
+	import _jithon
+	setPath = _jithon.setPath
+except:
+	_jithon = None
+
 def p(text):
 	print text
 
