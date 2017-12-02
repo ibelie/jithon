@@ -5,6 +5,8 @@
 #include "jithon.h"
 #include "longintrepr.h"
 
+#define JITHON_MODULE_NAME "jithon"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -52,8 +54,11 @@ static PyObject* SetPath(PyObject* _, PyObject* arg) {
 	register PyObject* modules = PyImport_GetModuleDict();
 	if (!modules) { return NULL; }
 
-	register PyObject* m = PyDict_GetItemString(modules, FULL_MODULE_NAME);
-	if (!m) { return NULL; }
+	register PyObject* m = PyDict_GetItemString(modules, JITHON_MODULE_NAME);
+	if (!m) {
+		PyErr_Format(PyExc_ImportError, "No module named " JITHON_MODULE_NAME);
+		return NULL;
+	}
 
 	register int err = PyObject_SetAttrString(m, "JITHONPATH", (PyObject*)path);
 	Py_DECREF(path);
@@ -70,7 +75,7 @@ static PyObject* TestCase(PyObject* _) {
 		Jithon_RunString(buf);
 		free(buf);
 	} else {
-		PySys_WriteStdout("Cannot read testcase!");
+		PySys_WriteStdout("Cannot read testcase!\n");
 	}
 
 	Py_RETURN_NONE;
