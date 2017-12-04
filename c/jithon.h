@@ -83,6 +83,9 @@ int Jithon_RunPython(const char*, PyObject*);
 // Virtual function to read javascript source code on different platform.
 char* Jithon_ReadFile(const char*);
 
+// Common function for testcase.
+PyObject* CommonFunction(PyObject*, PyObject*);
+
 #ifdef __cplusplus
 }
 #endif

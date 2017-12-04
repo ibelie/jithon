@@ -84,6 +84,8 @@ static PyMethodDef ModuleMethods[] = {
 		"set JITHONPATH."},
 	{"testcase", (PyCFunction)TestCase, METH_NOARGS,
 		"run testcase."},
+	{"commonFunction1", NULL, METH_VARARGS,
+		"common function for testcase."},
 	{ NULL, NULL}
 };
 
@@ -112,6 +114,8 @@ static struct PyModuleDef _module = {
 
 PyMODINIT_FUNC INITFUNC(void) {
 	PyObject* m;
+	// set common function for testcase.
+	ModuleMethods[2].ml_meth = (PyCFunction)CommonFunction;
 #if PY_MAJOR_VERSION >= 3
 	m = PyModule_Create(&_module);
 #else

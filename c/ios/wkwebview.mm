@@ -71,9 +71,10 @@ int Jithon_Init(const char* s) {
 	WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
 	config.userContentController = [[WKUserContentController alloc] init];
 	[config.userContentController addScriptMessageHandler:(id<WKScriptMessageHandler>)delegate name:@"p"];
-	[config.userContentController addScriptMessageHandler:(id<WKScriptMessageHandler>)delegate name:@"commonFunction"];
 	[config.userContentController addScriptMessageHandler:(id<WKScriptMessageHandler>)delegate name:@"onTestcaseStart"];
 	[config.userContentController addScriptMessageHandler:(id<WKScriptMessageHandler>)delegate name:@"onTestcaseEnd"];
+	[config.userContentController addScriptMessageHandler:(id<WKScriptMessageHandler>)delegate name:@"commonFunction1"];
+	[config.userContentController addScriptMessageHandler:(id<WKScriptMessageHandler>)delegate name:@"commonFunction2"];
 
 	webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 10, 500, 300) configuration:config];
 	[webView evaluateJavaScript:[NSString stringWithUTF8String:s] completionHandler:^(id _Nullable data, NSError* _Nullable error) {
