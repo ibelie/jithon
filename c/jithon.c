@@ -79,6 +79,15 @@ static PyObject* TestCase(PyObject* _) {
 	Py_RETURN_NONE;
 }
 
+static PyObject* TestCaseEx(PyObject* _) {
+	char buf[25] = {0};
+	for(register int i = 0; i < 100000; i++) {
+		snprintf(buf, 25, "commonFunction(%d);", i);
+	}
+	Jithon_RunString(buf);
+	Py_RETURN_NONE;
+}
+
 PyObject* CommonFunction(PyObject* _, PyObject* args) {
 	int i;
 	if (PyArg_ParseTuple(args, "i", &i)) {
@@ -91,6 +100,8 @@ static PyMethodDef ModuleMethods[] = {
 	{"setPath", (PyCFunction)SetPath, METH_O,
 		"set JITHONPATH."},
 	{"testcase", (PyCFunction)TestCase, METH_NOARGS,
+		"run testcase."},
+	{"testcaseEx", (PyCFunction)TestCaseEx, METH_NOARGS,
 		"run testcase."},
 	{"commonFunction1", (PyCFunction)CommonFunction, METH_VARARGS,
 		"common function for testcase."},
